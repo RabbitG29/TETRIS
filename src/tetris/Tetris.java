@@ -1,3 +1,8 @@
+/*
+ * 작성자 : 권동현
+ * Recent Update : 2019.12.19 
+ */
+
 package tetris;
 
 import java.awt.Button;
@@ -21,6 +26,7 @@ import javax.sound.sampled.Clip;
 import javax.swing.*;
 
 public class Tetris extends JFrame implements ActionListener {
+	private static final long serialVersionUID = 1L;
 	Button btn[][] = new Button[20][10];
 	boolean pauseFlag = false;
 	Thread t;
@@ -203,6 +209,8 @@ public class Tetris extends JFrame implements ActionListener {
 						for(int i=0;i<20;i++)
 							for(int j=0;j<10;j++)
 								btn[i][j].setBackground(Color.WHITE); // 새 판으로 초기화
+						scoreValue = 0;
+						score.setText(scoreText+scoreValue);
 						continue; // 새 게임 시작
 					}
 					btn[b.position[0][0]][b.position[0][1]].setBackground(b.blockColor);
@@ -509,6 +517,8 @@ public class Tetris extends JFrame implements ActionListener {
 					color = new String(readBuffer);
 					colors = color.split("\r\n");
 				}
+		        scoreValue = Integer.parseInt(colors[200]);
+		        score.setText(scoreText+scoreValue);
 		        for (i = 0; i < 20; i++) {
 					for (j = 0; j < 10; j++) {
 						/*--- R G B에 대해서 substring ---*/
@@ -579,6 +589,8 @@ public class Tetris extends JFrame implements ActionListener {
 						output.write(by);
 					}
 				}
+				String scoreTemp = scoreValue + "";
+				output.write(scoreTemp.getBytes());
 			} catch (FileNotFoundException e1) {
 				e1.printStackTrace();
 			} catch (IOException e1) {
